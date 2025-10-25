@@ -3,7 +3,9 @@ var stdout_buffer:[1024]u8 = undefined;
 var stdout_writer = std.fs.File.stdout().writer(&stdout_buffer);
 const stdout = &stdout_writer.interface;
 const c = @cImport({
+    @cInclude("time.h");
     @cInclude("stdlib.h");
+    @cInclude("stdio.h");
 });
 
 fn roll_dice() u8 {
@@ -89,4 +91,22 @@ fn move_player(current_player:u8,roll:u8) u8 {
         return current_player;
     
     return new_square;
+}
+
+pub fn main() !void {
+    c.srand(c.time(0));
+    var current_player = 1;
+    var won = false;
+    
+    try stdout.print("Snake And Ladder game\n", .{});
+    while (!won) {
+        try stdout.print("\nPlayer {d}, press Enter to roll the dice...", .{current_player});
+        try stdout.flush();
+        c.getchar();
+        const roll = roll_dice();
+        try stdout.print("You rolled: {d}\n", .{roll});
+        try stdout.flush();
+
+        
+    }
 }
