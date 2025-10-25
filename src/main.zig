@@ -58,5 +58,9 @@ fn print_board() !void {
                 iterRL -= 30;
             }
         }
+        if (iterRL == 10)
+            break;
     }
+    try stdout.print("\n", .{});
+    try stdout.flush();
 }
