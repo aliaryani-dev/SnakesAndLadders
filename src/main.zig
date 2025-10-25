@@ -19,7 +19,7 @@ fn print_board() !void {
         board[i] = i;
     }
 
-    var alt = 0;
+    var alt = 0; // to specify alternates
     var iterLR = 101; // iterator to print from left to right
     var iterRL = 80; // iterator to print from right to left 
     var val = 100;
@@ -32,13 +32,30 @@ fn print_board() !void {
             } else if (iterLR == player2) {
                 try stdout.print("#P2    ", .{});
             } else {
-                try stdout.print("{d}    ", .{iterLR});
+                try stdout.print("{d}    ", .{board[iterLR]});
             } try stdout.flush();
 
             if (iterLR % 10 == 1) {
                 try stdout.print("\n\n", .{});
+                try stdout.flush();
                 alt = 1;
                 iterLR -= 10;
+            } 
+        } else {
+            iterRL += 1;
+            if (iterRL == player1) {
+                try stdout.print("#P1    ", .{});
+            } else if (iterRL == player2) {
+                try stdout.print("#P2    ", .{});
+            } else {
+                try stdout.print("{d}    ", .{board[iterRL]});
+            } try stdout.flush();
+
+            if (iterRL % 10 == 0) {
+                try stdout.print("\n\n", .{});
+                try stdout.flush();
+                alt = 0;
+                iterRL -= 30;
             }
         }
     }
