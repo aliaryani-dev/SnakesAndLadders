@@ -35,7 +35,11 @@ fn print_board() !void {
                 try stdout.print("{d}    ", .{iterLR});
             } try stdout.flush();
 
-            
+            if (iterLR % 10 == 1) {
+                try stdout.print("\n\n", .{});
+                alt = 1;
+                iterLR -= 10;
+            }
         }
     }
 }
