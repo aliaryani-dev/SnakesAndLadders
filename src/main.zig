@@ -1,27 +1,23 @@
 const std = @import("std");
-const SnakesAndLadders = @import("SnakesAndLadders");
+const c = @cImport({
+    @cInclude("stdlib.h");
+});
 
-pub fn main() !void {
-    // Prints to stderr, ignoring potential errors.
-    std.debug.print("All your {s} are belong to us.\n", .{"codebase"});
-    try SnakesAndLadders.bufferedPrint();
+fn roll_dice() u8 {
+    return c.rand() % 6 + 1;
 }
 
-test "simple test" {
-    const gpa = std.testing.allocator;
-    var list: std.ArrayList(i32) = .empty;
-    defer list.deinit(gpa); // Try commenting this out and see if zig detects the memory leak!
-    try list.append(gpa, 42);
-    try std.testing.expectEqual(@as(i32, 42), list.pop());
-}
+var player1:u8 = 0;
+var player2:u8 = 0;
 
-test "fuzz example" {
-    const Context = struct {
-        fn testOne(context: @This(), input: []const u8) anyerror!void {
-            _ = context;
-            // Try passing `--fuzz` to `zig build test` and see if it manages to fail this test case!
-            try std.testing.expect(!std.mem.eql(u8, "canyoufindme", input));
-        }
-    };
-    try std.testing.fuzz(Context{}, Context.testOne, .{});
+fn print_board() !void {
+    var board = [101]u8{};
+    for (1..101) |i| {
+        board[i] = i;
+    }
+
+    var alt = 0;
+    var iterLR = 101; // iterator to print from left to right
+    var iterRL = 80; // iterator to print from right to left 
+    var val = 100;
 }
