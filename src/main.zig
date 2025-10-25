@@ -64,3 +64,29 @@ fn print_board() !void {
     try stdout.print("\n", .{});
     try stdout.flush();
 }
+
+// function to move player 
+fn move_player(current_player:u8,roll:u8) u8 {
+    const new_position = current_player + roll;
+
+    var snakes_and_ladders = [101]i16{};
+    for (0..101) |i| {
+        snakes_and_ladders[i] = 0;
+    }
+
+    // positive values are ladders 
+    // negative values are snakes 
+    snakes_and_ladders[6] = 40;
+    snakes_and_ladders[24] = -10;
+    snakes_and_ladders[45] = -30;
+    snakes_and_ladders[61] = -18;
+    snakes_and_ladders[58] = 22;
+    snakes_and_ladders[66] = 9;
+    snakes_and_ladders[98] = -20;
+
+    const new_square = new_position + snakes_and_ladders[new_position];
+    if (new_square > 100)
+        return current_player;
+    
+    return new_square;
+}
