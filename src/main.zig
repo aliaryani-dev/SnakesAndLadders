@@ -1,4 +1,7 @@
 const std = @import("std");
+var stdout_buffer:[1024]u8 = undefined;
+var stdout_writer = std.fs.File.stdout().writer(&stdout_buffer);
+const stdout = &stdout_writer.interface;
 const c = @cImport({
     @cInclude("stdlib.h");
 });
@@ -20,4 +23,19 @@ fn print_board() !void {
     var iterLR = 101; // iterator to print from left to right
     var iterRL = 80; // iterator to print from right to left 
     var val = 100;
+
+    while (val) : (val-= 1) {
+        if (alt == 0) {
+            iterLR -= 1;
+            if (iterLR == player1) {
+                try stdout.print("#P1    ", .{});
+            } else if (iterLR == player2) {
+                try stdout.print("#P2    ", .{});
+            } else {
+                try stdout.print("{d}    ", .{iterLR});
+            } try stdout.flush();
+
+            
+        }
+    }
 }
